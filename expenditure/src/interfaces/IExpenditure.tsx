@@ -6,3 +6,8 @@ export default interface IExpenditure {
   mes: string;
   dia: string;
 }
+
+export interface IResume {
+  detail: string;
+  value: number;
+}

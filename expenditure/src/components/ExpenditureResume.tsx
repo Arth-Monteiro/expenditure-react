@@ -6,18 +6,16 @@ import {
   TableHead,
   TableRow,
 } from '@mui/material';
+import { memo } from 'react';
+import { IResume } from '../interfaces/IExpenditure';
 
-import IExpenditure from '../interfaces/IExpenditure';
+const HEADER = ['Categoria', 'Valor (R$)'];
 
-const HEADER = ['Despesa', 'Categoria', 'Dia', 'Valor (R$)'];
-
-interface IExpenditureDataProp {
-  expenditures: IExpenditure[];
+interface IExpenditureResumeProp {
+  resume: IResume[];
 }
 
-export default function ExpenditureData({
-  expenditures,
-}: IExpenditureDataProp) {
+export const ExpenditureResume = memo(({ resume }: IExpenditureResumeProp) => {
   return (
     <TableContainer style={{ flex: '1' }} component={'div'}>
       {/* Begin Calendar Table */}
@@ -32,12 +30,10 @@ export default function ExpenditureData({
           </TableRow>
         </TableHead>
         <TableBody>
-          {expenditures.map(exp => (
-            <TableRow key={exp.id}>
-              <TableCell align="center">{exp.descricao}</TableCell>
-              <TableCell align="center">{exp.categoria}</TableCell>
-              <TableCell align="center">{exp.dia}</TableCell>
-              <TableCell align="center">{exp.valor}</TableCell>
+          {resume.map((exp, i) => (
+            <TableRow key={i}>
+              <TableCell align="center">{exp.detail}</TableCell>
+              <TableCell align="center">{exp.value.toFixed(2)}</TableCell>
             </TableRow>
           ))}
         </TableBody>
@@ -45,4 +41,4 @@ export default function ExpenditureData({
       {/* End Calendar Table */}
     </TableContainer>
   );
-}
+});

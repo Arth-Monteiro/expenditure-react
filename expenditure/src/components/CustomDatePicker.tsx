@@ -1,3 +1,5 @@
+import { memo } from 'react';
+
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -13,36 +15,38 @@ interface ICustomDatePickerProp {
   label?: string;
 }
 
-export default function CustomDatePicker({
-  currentPeriod,
-  view = ['year', 'month'],
-  label = '',
-}: ICustomDatePickerProp) {
-  const date = ISOStringToDate(currentPeriod);
+export const CustomDatePicker = memo(
+  ({
+    currentPeriod,
+    view = ['year', 'month'],
+    label = '',
+  }: ICustomDatePickerProp) => {
+    const date = ISOStringToDate(currentPeriod);
 
-  const navigate = useNavigate();
-  function handleDateChange(date: Date | null) {
-    if (date) {
-      const month = dateToISOString(date).substring(0, 7);
-      navigate('/expenditures/' + month);
+    const navigate = useNavigate();
+    function handleDateChange(date: Date | null) {
+      if (date) {
+        const month = dateToISOString(date).substring(0, 7);
+        navigate('/expenditures/' + month);
+      }
     }
-  }
 
-  return (
-    <Box component={'div'}>
-      <LocalizationProvider dateAdapter={AdapterDateFns}>
-        <DatePicker
-          views={view}
-          label={label}
-          minDate={new Date('2012-03-01')}
-          maxDate={new Date('2023-06-01')}
-          value={date}
-          onChange={newDate => {
-            handleDateChange(newDate);
-          }}
-          renderInput={params => <TextField {...params} helperText={null} />}
-        />
-      </LocalizationProvider>
-    </Box>
-  );
-}
+    return (
+      <Box component={'div'}>
+        <LocalizationProvider dateAdapter={AdapterDateFns}>
+          <DatePicker
+            views={view}
+            label={label}
+            minDate={new Date('2012-03-01')}
+            maxDate={new Date('2023-06-01')}
+            value={date}
+            onChange={newDate => {
+              handleDateChange(newDate);
+            }}
+            renderInput={params => <TextField {...params} helperText={null} />}
+          />
+        </LocalizationProvider>
+      </Box>
+    );
+  }
+);
